@@ -23,7 +23,7 @@ namespace Keepr.Controllers
             try
             {
                 Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-                return Ok(_service.GetById(userInfo.Id, id))
+                return Ok(_service.GetById(userInfo.Id, id));
             }
             catch (System.Exception e)
             {

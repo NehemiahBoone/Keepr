@@ -1,23 +1,55 @@
 using System;
 using Keepr.Models;
+using Keepr.Repositories;
 
 namespace Keepr.Services
-{
+{    
     public class VaultsService
     {
-        internal object GetById(string id1, int id2)
+        private readonly VaultsRepository _repo;
+
+        public VaultsService(VaultsRepository repo)
         {
-            throw new NotImplementedException();
+            _repo = repo;
+        }
+
+        internal Vault GetById(string userId, int id)
+        {
+            Vault original = _repo.GetById(id);
+            if(original == null)
+            {
+                throw new Exception("Invalid Id... from vaultsService");
+            }
+
+            if(original.CreatorId != userId && original.IsPrivate == false)
+            {
+                throw new Exception("Access Denied NOT YOURS... from vaultsService");
+            }
+
+            return original;
         }
 
         internal Vault CreateVault(Vault newVault)
         {
-            throw new NotImplementedException();
+            newVault.Id = _repo.Create(newVault);
+            return newVault;
         }
 
-        internal object DeleteVault(int id1, string id2)
+        internal object DeleteVault(int id, string userId)
         {
-            throw new NotImplementedException();
+            Vault original = _repo.GetById(id);
+            if(original == null)
+            {
+                throw new Exception("Invalid Id... from vaultsService");
+            }
+
+            if(original.CreatorId != userId)
+            {
+                throw new Exception("Access Denied NOT YOURS... from vaultsService");
+            }
+
+            _repo.DeleteVault(id);
+            return "Successfully deleted... from vaultsService";
         }
     }
 }
