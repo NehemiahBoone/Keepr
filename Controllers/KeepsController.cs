@@ -19,12 +19,11 @@ namespace Keepr.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Keep>>> GetAll()
+        public ActionResult<IEnumerable<Keep>> GetAll()
         {
             try
             {
-                Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-                return Ok(_service.GetAll(userInfo?.Email));
+                return Ok(_service.GetAll());
             }
             catch (System.Exception e)
             {
@@ -32,13 +31,12 @@ namespace Keepr.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Keep>> GetById(int id)
+        [HttpGet("{keepId}")]
+        public ActionResult<Keep> GetById(int keepId)
         {
             try
             {
-                Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-                return Ok(_service.GetById(userInfo?.Email, id));
+                return Ok(_service.GetById(keepId));
             }
             catch (System.Exception e)
             {
@@ -63,17 +61,17 @@ namespace Keepr.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{keepId}")]
         [Authorize]
-        public async Task<ActionResult<Keep>> EditKeep(int id, [FromBody] Keep editedKeep)
+        public async Task<ActionResult<Keep>> EditKeep(int keepId, [FromBody] Keep editedKeep)
         {
             try
             {
                 Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
                 editedKeep.Creator = userInfo;
-                editedKeep.Id = id;
+                editedKeep.Id = keepId;
 
-                return Ok(_service.EditKeep(editedKeep, userInfo));
+                return Ok(_service.EditKeep(editedKeep, userInfo.Id));
             }
             catch (System.Exception e)
             {
@@ -81,13 +79,13 @@ namespace Keepr.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<string>> DeleteKeep(int id)
+        [HttpDelete("{keepId}")]
+        public async Task<ActionResult<string>> DeleteKeep(int keepId)
         {
             try
             {
                 Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-                return Ok(_service.DeleteKeep(id, userInfo));
+                return Ok(_service.DeleteKeep(keepId, userInfo.Id));
             }
             catch (System.Exception e)
             {

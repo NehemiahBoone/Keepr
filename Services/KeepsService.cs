@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Keepr.Models;
 using Keepr.Repositories;
 
@@ -13,33 +15,75 @@ namespace Keepr.Services
         }
 
 
-        internal object GetAll(string email)
+        internal IEnumerable<Keep> GetAll()
         {
-            throw new NotImplementedException();
+            return _repo.GetAll();
         }
 
 
-        internal object GetById(string email, int id)
+        internal Keep GetById(int keepId)
         {
-            throw new NotImplementedException();
+            var data = _repo.GetById(keepId);
+            if(data == null)
+            {
+                throw new Exception("Invalid Id... from keepsService");
+            }
+
+            return data;
         }
 
 
         internal Keep CreateKeep(Keep newKeep)
         {
-            throw new NotImplementedException();
+            newKeep.Id = _repo.CreateKeep(newKeep);
+            return newKeep;
         }
 
 
-        internal object EditKeep(Keep editedKeep, Profile userInfo)
+        internal Keep EditKeep(Keep editedKeep, string userId)
         {
-            throw new NotImplementedException();
+            Keep original = _repo.GetById(editedKeep.Id);
+            if(original == null)
+            {
+                throw new Exception("Invalid Id... from keepsService");
+            }
+
+            if(original.CreatorId != userId)
+            {
+                throw new Exception("Access Denied NOT YOURS... from keepsService");
+            }
+
+            editedKeep.Name = editedKeep.Name == null ? original.Name : editedKeep.Name;
+            editedKeep.Description = editedKeep.Description == null ? original.Description : editedKeep.Description;
+            editedKeep.Img = editedKeep.Img == null ? original.Img : editedKeep.Img;
+            editedKeep.Views = editedKeep.Views == 0 ? original.Views : editedKeep.Views;
+            editedKeep.Keeps = editedKeep.Keeps == 0 ? original.Keeps : editedKeep.Keeps;
+            editedKeep.Creator = editedKeep.Creator == null ? original.Creator : editedKeep.Creator;
+
+            return _repo.EditKeep(editedKeep);
         }
 
 
-        internal object DeleteKeep(int id, Profile userInfo)
+        internal object DeleteKeep(int id, string userId)
         {
-            throw new NotImplementedException();
+            Keep original = _repo.GetById(id);
+            if(original == null)
+            {
+                throw new Exception("Invalid Id... from keepsService");
+            }
+
+            if(original.CreatorId != userId )
+            {
+                throw new Exception("Access Denied NOT YOURS... from keepsService");
+            }
+
+            _repo.DeleteKeep(id);
+            return "Successfully Deleted... from keepsService";
+        }
+
+        internal IEnumerable<Keep> GetAllByCreatorId(string queryProfileId, string profileId)
+        {
+            return _repo.GetAllByCreatorId(queryProfileId).ToList().FindAll(k => k.CreatorId == profileId);
         }
     }
 }
