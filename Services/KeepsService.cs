@@ -80,10 +80,5 @@ namespace Keepr.Services
             _repo.DeleteKeep(id);
             return "Successfully Deleted... from keepsService";
         }
-
-        internal IEnumerable<Keep> GetAllByCreatorId(string queryProfileId, string profileId)
-        {
-            return _repo.GetAllByCreatorId(queryProfileId).ToList().FindAll(k => k.CreatorId == profileId);
-        }
     }
 }

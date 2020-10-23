@@ -1,4 +1,4 @@
-CREATE TABLE profiles
+/* CREATE TABLE profiles
 (
     id VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
@@ -58,4 +58,4 @@ CREATE TABLE vaultkeeps
     FOREIGN KEY (keepId)
         REFERENCES keeps (id)
         ON DELETE CASCADE
-);
+); */

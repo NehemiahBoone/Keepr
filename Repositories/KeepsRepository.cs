@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Dapper;
 using Keepr.Models;
 
@@ -10,12 +11,11 @@ namespace Keepr.Repositories
     {
         private readonly IDbConnection _db;
 
-        private readonly string populateCreator = @"
-            SELECT
+        private readonly string populateCreator = @"SELECT
             keep.*,
             profile.*
             FROM keeps keep
-            JOIN profiles profile on keep.creatorId = profile.Id";
+            JOIN profiles profile on keep.creatorId = profile.Id ";
         
         public KeepsRepository(IDbConnection db)
         {
@@ -30,7 +30,8 @@ namespace Keepr.Repositories
 
         internal Keep GetById(int keepId)
         {
-            throw new NotImplementedException();
+            string sql = populateCreator + "WHERE keep.id = @keepId";
+            return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => {keep.Creator = profile; return keep;}, new {keepId}, splitOn: "id").FirstOrDefault();
         }
 
         internal int CreateKeep(Keep newKeep)
@@ -46,17 +47,25 @@ namespace Keepr.Repositories
 
         internal Keep EditKeep(Keep editedKeep)
         {
-            throw new NotImplementedException();
+            string sql = @"
+                UPDATE keeps
+                SET
+                creatorId = @CreatorId,
+                name = @Name,
+                description = @Description,
+                img = @Img,
+                views = @Views,
+                shares = @Shares,
+                keeps = @Keeps
+                WHERE id = @Id;";
+            _db.Execute(sql, editedKeep);
+            return editedKeep;
         }
 
         internal void DeleteKeep(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        internal IEnumerable<Keep> GetAllByCreatorId(string queryProfileId)
-        {
-            throw new NotImplementedException();
+            string sql = "DELETE FROM keeps WHERE id = @id";
+            _db.Execute(sql, new {id});
         }
     }
 }
