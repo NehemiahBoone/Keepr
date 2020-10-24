@@ -1,5 +1,8 @@
+using System.Threading.Tasks;
+using CodeWorks.Auth0Provider;
 using Keepr.Models;
 using Keepr.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Keepr.Controllers
@@ -15,10 +18,13 @@ namespace Keepr.Controllers
         }
 
     [HttpPost]
-    public ActionResult<string> CreateVaultKeep([FromBody] VaultKeep newVK)
+    [Authorize]
+    public async Task<ActionResult<string>> CreateVaultKeep([FromBody] VaultKeep newVK)
     {
         try
         {
+            Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+            newVK.CreatorId = userInfo.Id;
             _service.CreateVaultKeep(newVK);
             return Ok("Created vaultkeep... from vaultKeepsController");
         }
