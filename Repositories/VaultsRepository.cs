@@ -29,12 +29,19 @@ namespace Keepr.Repositories
 
         internal int Create(Vault newVault)
         {
-            throw new NotImplementedException();
+            string sql = @"
+                INSERT INTO vaults
+                (creatorId, name, description, isPrivate)
+                VALUES
+                (@CreatorId, @Name, @Description, @IsPrivate);
+                SELECT LAST_INSERT_ID();";
+            return _db.ExecuteScalar<int>(sql, newVault);
         }
 
         internal void DeleteVault(int id)
         {
-            throw new NotImplementedException();
+            string sql = "DELETE FROM vaults WHERE id = @id";
+            _db.Execute(sql, new {id});
         }
     }
 }
