@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Linq;
 using Dapper;
 using Keepr.Models;
 
@@ -23,7 +24,7 @@ namespace Keepr.Repositories
         internal Vault GetById(int id)
         {
             string sql = populateCreator + "WHERE vault.id = @id";
-            return _db.Query<Vault, Profile, Vault>(sql, (vault, profile) => {vault.Creator = profile; return vault}, new {id}, splitOn: "id").FirstOrDefault();
+            return _db.Query<Vault, Profile, Vault>(sql, (vault, profile) => {vault.Creator = profile; return vault;}, new {id}, splitOn: "id").FirstOrDefault();
         }
 
         internal int Create(Vault newVault)
