@@ -10,7 +10,7 @@
                     </div>
                     <div class="col-sm-12 col-md-10">
                         <h2>{{viewedProfile.name}}</h2>
-                        <h5>Public Vaults: {{vaults.length}}</h5>
+                        <h5>Vaults: {{vaults.length}}</h5>
                         <h5>Keeps: {{keeps.length}}</h5>
                     </div>
                 </div>
