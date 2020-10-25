@@ -63,6 +63,10 @@ namespace Keepr.Services
             return _repo.EditKeep(editedKeep);
         }
 
+        internal IEnumerable<KeepVaultKeepViewModel> GetKeepsByVaultId(int id)
+        {
+            return _repo.GetKeepsByVaultId(id);
+        }
 
         internal object DeleteKeep(int id, string userId)
         {
