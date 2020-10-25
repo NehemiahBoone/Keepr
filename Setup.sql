@@ -1,4 +1,9 @@
-  /* CREATE TABLE profiles
+DELETE FROM profiles;
+DELETE FROM keeps;
+DELETE FROM vaults;
+DELETE FROM vaultkeeps;
+
+/* CREATE TABLE profiles
 (
     id VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,

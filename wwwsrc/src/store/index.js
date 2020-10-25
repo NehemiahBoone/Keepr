@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import router from "../router/index.js";
 import { api } from "../services/AxiosService.js";
 
 Vue.use(Vuex);
@@ -7,6 +8,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     profile: {},
+    viewedProfile: {},
+    profileKeeps: [],
     keeps: []
   },
 
@@ -17,6 +20,10 @@ export default new Vuex.Store({
 
     setKeeps(state, keeps){
       state.keeps = keeps;
+    },
+
+    setViewedProfile(state, profile){
+      state.viewedProfile = profile;
     }
   },
 
@@ -38,6 +45,24 @@ export default new Vuex.Store({
       } catch (error) {
         console.error(error);
       }
-    }
+    },
+
+    async getSearchedProfile({commit,dispatch}, profileId){
+      try {
+        let res = await api.get("profiles/" + profileId)
+        commit("setViewedProfile", res.data)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async getProfileKeeps({commit,dispatch}, profileId){
+      try {
+        let res = await api.get("profiles/" + profileId + "/keeps")
+        console.log(res)
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 });
