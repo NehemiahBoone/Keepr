@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Dapper;
@@ -42,6 +43,12 @@ namespace Keepr.Repositories
         {
             string sql = "DELETE FROM vaults WHERE id = @id";
             _db.Execute(sql, new {id});
+        }
+
+        internal IEnumerable<Vault> GetAllByCreatorId(string id)
+        {
+            string sql = populateCreator + "WHERE creatorId = @id;";
+            return _db.Query<Vault, Profile, Vault>(sql, (vault, profile) => {vault.Creator = profile; return vault;}, new {id}, splitOn: "id");
         }
     }
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Keepr.Models;
 using Keepr.Repositories;
 
@@ -50,6 +52,11 @@ namespace Keepr.Services
 
             _repo.DeleteVault(id);
             return "Successfully deleted... from vaultsService";
+        }
+
+        internal IEnumerable<Vault> GetAllByCreatorId(string id)
+        {
+            return _repo.GetAllByCreatorId(id).ToList().FindAll(v => v.CreatorId == id || !v.IsPrivate);
         }
     }
 }
