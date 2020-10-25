@@ -77,5 +77,11 @@ namespace Keepr.Repositories
             WHERE vaultId = @id";
             return _db.Query<KeepVaultKeepViewModel>(sql, new {id});
         }
+
+        internal IEnumerable<Keep> GetAllByCreatorId(string id)
+        {
+            string sql = populateCreator + "WHERE creatorId = @id;";
+            return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => {keep.Creator = profile; return keep;}, new {id}, splitOn: "id");
+        }
     }
 }
