@@ -1,14 +1,14 @@
-/* CREATE TABLE profiles
+  /* CREATE TABLE profiles
 (
     id VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     name VARCHAR(255),
     picture VARCHAR(255),
     PRIMARY KEY (id)
-);
+); */
 
 
-CREATE TABLE keeps
+/* CREATE TABLE keeps
 (
     id INT AUTO_INCREMENT,
     creatorId VARCHAR(255) NOT NULL,
@@ -19,13 +19,12 @@ CREATE TABLE keeps
     shares INT,
     keeps INT,
     PRIMARY KEY (id),
-
     FOREIGN KEY (creatorId)
-        REFERENCES profiles (id)
+        REFERENCES profiles(id)
         ON DELETE CASCADE
-);
+); */
 
-CREATE TABLE vaults
+/* CREATE TABLE vaults
 (
     id INT AUTO_INCREMENT,
     creatorId VARCHAR(255) NOT NULL,
@@ -33,13 +32,12 @@ CREATE TABLE vaults
     description VARCHAR(255) NOT NULL,
     IsPrivate TINYINT,
     PRIMARY KEY (id),
-
     FOREIGN KEY (creatorId)
-        REFERENCES profiles (id)
+        REFERENCES profiles(id)
         ON DELETE CASCADE
-);
+); */
 
-CREATE TABLE vaultkeeps
+/* CREATE TABLE vaultkeeps
 (
     id INT AUTO_INCREMENT,
     creatorId VARCHAR(255) NOT NULL,
@@ -48,14 +46,14 @@ CREATE TABLE vaultkeeps
     PRIMARY KEY (id),
 
     FOREIGN KEY (creatorId)
-        REFERENCES profiles (id)
+        REFERENCES profiles(id)
         ON DELETE CASCADE,
     
     FOREIGN KEY (vaultId)
-        REFERENCES vaults (id)
+        REFERENCES vaults(id)
         ON DELETE CASCADE,
 
     FOREIGN KEY (keepId)
-        REFERENCES keeps (id)
+        REFERENCES keeps(id)
         ON DELETE CASCADE
 ); */

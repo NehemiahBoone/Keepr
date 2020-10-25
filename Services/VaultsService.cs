@@ -23,7 +23,7 @@ namespace Keepr.Services
                 throw new Exception("Invalid Id... from vaultsService");
             }
 
-            if(original.CreatorId != userId && original.IsPrivate == false)
+            if(original.CreatorId != userId && original.IsPrivate == true)
             {
                 throw new Exception("Access Denied NOT YOURS... from vaultsService");
             }

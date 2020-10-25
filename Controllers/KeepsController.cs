@@ -51,6 +51,7 @@ namespace Keepr.Controllers
             try
             {
                 Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+                newKeep.CreatorId = userInfo.Id;
                 Keep created = _service.CreateKeep(newKeep);
                 created.Creator = userInfo;
                 return Ok(created);
