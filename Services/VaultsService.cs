@@ -54,9 +54,9 @@ namespace Keepr.Services
             return "Successfully deleted... from vaultsService";
         }
 
-        internal IEnumerable<Vault> GetAllByCreatorId(string id)
+        internal IEnumerable<Vault> GetAllByCreatorId(string id, string userId)
         {
-            return _repo.GetAllByCreatorId(id).ToList().FindAll(v => v.CreatorId == id || !v.IsPrivate);
+            return _repo.GetAllByCreatorId(id).ToList().FindAll(v => v.CreatorId == userId || v.IsPrivate == false);
         }
     }
 }

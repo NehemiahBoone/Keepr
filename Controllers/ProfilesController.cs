@@ -59,7 +59,7 @@ namespace Keepr.Controllers
       try
       {
         Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-        return Ok(_vs.GetAllByCreatorId(id));
+        return Ok(_vs.GetAllByCreatorId(id, userInfo.Id));
       }
       catch (System.Exception e)
       {

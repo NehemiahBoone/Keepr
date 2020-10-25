@@ -18,13 +18,27 @@
 
         </div>
         <div class="row my-1">
+
             <div class="col-12">
                 <h3>Keeps <i class="fas fa-plus text-success"></i></h3>
             </div>
+
         </div>
-        <div class="row">
+        <div class="row mb-4">
 
             <keep-component v-for="keep in keeps" :key="keep.id" :keepProp="keep"/>
+
+        </div>
+        <div class="row my-1">
+
+            <div class="col-12">
+                <h3>Vaults <i class="fas fa-plus text-success"></i></h3>
+            </div>
+            
+        </div>
+        <div class="row mb-4">
+
+            <vault-component v-for="vault in vaults" :key="vault.id" :vaultProp="vault"/>
 
         </div>
     </div>
@@ -33,6 +47,7 @@
 
 <script>
 import keepComponent from "../components/KeepComponent"
+import vaultComponent from "../components/VaultComponent"
 export default {
     mounted(){
         this.$store.dispatch("getSearchedProfile", this.$route.params.id)
@@ -52,7 +67,8 @@ export default {
         }
     },
     components:{
-        keepComponent
+        keepComponent,
+        vaultComponent
     }
 
 
