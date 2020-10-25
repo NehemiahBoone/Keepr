@@ -10,6 +10,7 @@ export default new Vuex.Store({
     profile: {},
     viewedProfile: {},
     profileKeeps: [],
+    profileVaults: [],
     keeps: []
   },
 
@@ -18,13 +19,22 @@ export default new Vuex.Store({
       state.profile = profile;
     },
 
+    setViewedProfile(state, profile){
+      state.viewedProfile = profile;
+    },
+
     setKeeps(state, keeps){
       state.keeps = keeps;
     },
 
-    setViewedProfile(state, profile){
-      state.viewedProfile = profile;
+    setProfileKeeps(state, keeps){
+      state.profileKeeps = keeps
+    },
+
+    setProfileVaults(state, vaults){
+      state.profileVaults = vaults
     }
+
   },
 
   actions: {
@@ -50,6 +60,7 @@ export default new Vuex.Store({
     async getSearchedProfile({commit,dispatch}, profileId){
       try {
         let res = await api.get("profiles/" + profileId)
+        console.log(res)
         commit("setViewedProfile", res.data)
       } catch (error) {
         console.error(error);
@@ -59,10 +70,19 @@ export default new Vuex.Store({
     async getProfileKeeps({commit,dispatch}, profileId){
       try {
         let res = await api.get("profiles/" + profileId + "/keeps")
-        console.log(res)
+        commit("setProfileKeeps", res.data)
       } catch (error) {
         console.error(error);
       }
     },
+    
+    async getProfileVaults({commit,dispatch}, profileId){
+      try {
+        let res = await api.get("profiles/" + profileId + "/vaults")
+        commit("setProfileVaults", res.data)
+      } catch (error) {
+        console.error(error);
+      }
+    }
   },
 });
