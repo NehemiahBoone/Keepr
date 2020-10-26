@@ -17,35 +17,35 @@ namespace Keepr.Controllers
             _service = service;
         }
 
-    [HttpPost]
-    [Authorize]
-    public async Task<ActionResult<string>> CreateVaultKeep([FromBody] VaultKeep newVK)
-    {
-        try
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult<string>> CreateVaultKeep([FromBody] VaultKeep newVK)
         {
-            Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-            newVK.CreatorId = userInfo.Id;
-            _service.CreateVaultKeep(newVK);
-            return Ok("Created vaultkeep... from vaultKeepsController");
+            try
+            {
+                Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+                newVK.CreatorId = userInfo.Id;
+                _service.CreateVaultKeep(newVK);
+                return Ok("Created vaultkeep... from vaultKeepsController");
+            }
+            catch (System.Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
-        catch (System.Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
 
-    [HttpDelete("{id}")]
-    public ActionResult<string> DeleteVaultKeep(int id)
-    {
-        try
+        [HttpDelete("{id}")]
+        public ActionResult<string> DeleteVaultKeep(int id)
         {
-            _service.DeleteVaultKeep(id);
-            return Ok("Deleted vaultkeep... from vaultKeepsController");
+            try
+            {
+                _service.DeleteVaultKeep(id);
+                return Ok("Deleted vaultkeep... from vaultKeepsController");
+            }
+            catch (System.Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
-        catch (System.Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
     }
 }

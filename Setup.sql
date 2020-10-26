@@ -1,4 +1,7 @@
-SELECT * FROM profiles;
+/* DELETE FROM vaultkeeps;
+DELETE FROM keeps;
+DELETE FROM vaults; */
+
 /* CREATE TABLE profiles
 (
     id VARCHAR(255) NOT NULL,

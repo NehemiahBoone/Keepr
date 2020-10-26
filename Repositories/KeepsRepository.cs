@@ -16,7 +16,7 @@ namespace Keepr.Repositories
             profile.*
             FROM keeps keep
             JOIN profiles profile on keep.creatorId = profile.Id ";
-        
+
         public KeepsRepository(IDbConnection db)
         {
             _db = db;
@@ -25,13 +25,13 @@ namespace Keepr.Repositories
         internal IEnumerable<Keep> GetAll()
         {
             string sql = populateCreator;
-            return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => {keep.Creator = profile; return keep;}, splitOn: "id");
+            return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => { keep.Creator = profile; return keep; }, splitOn: "id");
         }
 
         internal Keep GetById(int keepId)
         {
             string sql = populateCreator + "WHERE keep.id = @keepId";
-            return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => {keep.Creator = profile; return keep;}, new {keepId}, splitOn: "id").FirstOrDefault();
+            return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => { keep.Creator = profile; return keep; }, new { keepId }, splitOn: "id").FirstOrDefault();
         }
 
         internal int CreateKeep(Keep newKeep)
@@ -65,23 +65,26 @@ namespace Keepr.Repositories
         internal void DeleteKeep(int id)
         {
             string sql = "DELETE FROM keeps WHERE id = @id";
-            _db.Execute(sql, new {id});
+            _db.Execute(sql, new { id });
         }
 
         internal IEnumerable<KeepVaultKeepViewModel> GetKeepsByVaultId(int id)
         {
             string sql = @"
-            SELECT k.*, vk.id AS VaultKeepId
+            SELECT k.*, 
+            vk.id AS VaultKeepId,
+            profile.*
             FROM vaultkeeps vk
-            JOIN keeps k ON k.id = vk.keepId
+            JOIN keeps k ON k.Id = vk.keepId
+            JOIN profiles profile on k.creatorId = profile.id
             WHERE vaultId = @id";
-            return _db.Query<KeepVaultKeepViewModel>(sql, new {id});
+            return _db.Query<KeepVaultKeepViewModel, Profile, KeepVaultKeepViewModel>(sql, (k, profile) => { k.Creator = profile; return k; }, new { id }, splitOn: "id");
         }
 
         internal IEnumerable<Keep> GetAllByCreatorId(string id)
         {
             string sql = populateCreator + "WHERE creatorId = @id;";
-            return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => {keep.Creator = profile; return keep;}, new {id}, splitOn: "id");
+            return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => { keep.Creator = profile; return keep; }, new { id }, splitOn: "id");
         }
     }
 }

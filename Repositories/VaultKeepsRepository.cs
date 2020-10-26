@@ -25,7 +25,7 @@ namespace Keepr.Repositories
         internal void DeleteVaultKeep(int id)
         {
             string sql = "DELETE FROM vaultkeeps WHERE id = @id LIMIT 1;";
-            _db.Execute(sql, new {id});
+            _db.Execute(sql, new { id });
         }
 
         internal VaultKeep GetById(int id)

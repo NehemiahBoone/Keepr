@@ -48,6 +48,7 @@
               placeholder="Description..."
               aria-describedby="helpId"
             />
+            <label for="vaultIsPrivate">Private</label>
             <input
               type="checkbox"
               name="vaultIsPrivate"
@@ -57,7 +58,7 @@
               aria-describedby="helpId"
             />
           </div>
-          <button class="btn btn-success" type="submit">Create Keep</button>
+          <button class="btn btn-success" type="submit">Create Vault</button>
         </form>
       </div>
     </div>
@@ -113,7 +114,7 @@
               aria-describedby="helpId"
             />
           </div>
-          <button class="btn btn-success" type="submit">Create Vault</button>
+          <button class="btn btn-success" type="submit">Create Keep</button>
         </form>
       </div>
     </div>

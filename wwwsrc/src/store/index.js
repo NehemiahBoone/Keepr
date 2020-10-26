@@ -14,7 +14,9 @@ export default new Vuex.Store({
     keeps: [],
     userVaults: [],
     activeKeep: {},
-    vaultKeepKeepId: null
+    activeVault: {},
+    currentVaultsKeeps: [],
+    vaultKeepKeepId: null,
   },
 
   mutations: {
@@ -42,12 +44,20 @@ export default new Vuex.Store({
       state.activeKeep = keep
     },
 
+    setActiveVault(state, vault) {
+      state.activeVault = vault
+    },
+
     setUserVaults(state, vaults) {
       state.userVaults = vaults;
     },
 
     sendKeepId(state, keepId) {
       state.vaultKeepKeepId = keepId
+    },
+
+    setVaultKeeps(state, vaultKeeps) {
+      state.currentVaultsKeeps = vaultKeeps
     }
 
   },
@@ -148,6 +158,11 @@ export default new Vuex.Store({
       commit("setActiveKeep", keep)
     },
 
+    setActiveVault({ commit, dispatch }, vault) {
+      commit("setActiveVault", vault)
+    },
+
+    //THIS IS CALLED ON APP, GETS THE USERS PERSONALIZED VAULTS
     async getUserVaults({ commit, dispatch }, profileId) {
       try {
         let res = await api.get("profiles/" + profileId + "/vaults")
@@ -196,11 +211,20 @@ export default new Vuex.Store({
     async getKeepsByVaultId({ commit, dispatch }, vaultId) {
       try {
         let res = await api.get("vaults/" + vaultId + "/keeps")
+        console.log(res)
+        commit("setVaultKeeps", res.data)
       } catch (error) {
         console.error(error);
       }
     },
 
-
+    async getActiveVault({ commit, dispatch }, vaultId) {
+      try {
+        let res = await api.get("vaults/" + vaultId)
+        commit("setActiveVault", res.data)
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 });
