@@ -1,5 +1,10 @@
 <template>
-  <div class="col-6 col-md-3 card" data-toggle="modal" data-target="#keepModal">
+  <div
+    class="col-6 col-md-3 card"
+    data-toggle="modal"
+    :data-target="'#' + modalId"
+    @click="setActive"
+  >
     <img :src="keepProp.img" alt="" />
     <h2>{{ keepProp.name }}</h2>
     <img @click="viewProfile" :src="keepProp.creator.picture" alt="" />
@@ -10,45 +15,69 @@
       @click="deleteKeep"
     ></i>
 
-    <div class="modal fade" id="keepModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">
-              {{ keepProp.name }}
-            </h5>
+    <keep-modal :id="modalId">
+      <template v-slot:header>
+        <div v-if="activeKeep.id">
+          <h2 class="text-primary">{{ activeKeep.name }}</h2>
+        </div>
+      </template>
+
+      <template v-slot:body>
+        <div v-if="activeKeep.id">
+          <img :src="activeKeep.img" alt="" />
+          <p>{{ activeKeep.description }}</p>
+        </div>
+      </template>
+
+      <template v-slot:footer>
+        <div v-if="activeKeep.id">
+          <small>Views: {{ activeKeep.views }}</small>
+          <br />
+          <small>Keeps: {{ activeKeep.keeps }}</small>
+          <br />
+          <br />
+          <img :src="activeKeep.creator.picture" alt="" />
+          <p>{{ activeKeep.creator.name }}</p>
+          <div class="dropdown show">
             <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
+              class="btn btn-primary dropdown-toggle"
+              role="button"
+              data-toggle="dropdown"
+              @click="sendKeepId"
             >
-              <span aria-hidden="true">&times;</span>
+              Add To Vault
             </button>
-          </div>
-          <div class="modal-body text-center">
-            {{ keepProp.description }}
-            <br /><br />
-            {{ this.keepProp.views }} | {{ keepProp.keeps }} <br /><br />
-            <img :src="keepProp.img" alt="" />
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-primary" @click="viewKeep">View</button>
-            {{ keepProp.creator.name }}
-            <img :src="keepProp.creator.picture" alt="" />
+
+            <div class="dropdown-menu">
+              <vault-drop-down-component
+                v-for="vault in vaults"
+                :key="vault.id"
+                :vaultProp="vault"
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </template>
+    </keep-modal>
   </div>
 </template>
 
 <script>
+import KeepModal from "./KeepModal.vue";
+import VaultDropDownComponent from "./VaultDropDownComponent.vue";
 export default {
   name: "keep-component",
-  props: ["keepProp"],
-  data() {
-    return {};
+  props: ["keepProp", "index"],
+  computed: {
+    modalId() {
+      return "modal" + this.keepProp.id;
+    },
+    activeKeep() {
+      return this.$store.state.activeKeep;
+    },
+    vaults() {
+      return this.$store.state.userVaults;
+    },
   },
   methods: {
     viewProfile() {
@@ -75,6 +104,17 @@ export default {
         }
       }
     },
+    setActive() {
+      console.log(this.keepProp);
+      this.$store.dispatch("setActiveKeep", this.keepProp);
+    },
+    sendKeepId() {
+      this.$store.dispatch("sendKeepId", this.keepProp.id);
+    },
+  },
+  components: {
+    KeepModal,
+    VaultDropDownComponent,
   },
 };
 </script>

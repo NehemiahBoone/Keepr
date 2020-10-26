@@ -11,7 +11,10 @@ export default new Vuex.Store({
     viewedProfile: {},
     profileKeeps: [],
     profileVaults: [],
-    keeps: []
+    keeps: [],
+    userVaults: [],
+    activeKeep: {},
+    vaultKeepKeepId: null
   },
 
   mutations: {
@@ -33,6 +36,18 @@ export default new Vuex.Store({
 
     setProfileVaults(state, vaults) {
       state.profileVaults = vaults
+    },
+
+    setActiveKeep(state, keep) {
+      state.activeKeep = keep
+    },
+
+    setUserVaults(state, vaults) {
+      state.userVaults = vaults;
+    },
+
+    sendKeepId(state, keepId) {
+      state.vaultKeepKeepId = keepId
     }
 
   },
@@ -50,7 +65,7 @@ export default new Vuex.Store({
     async getKeeps({ commit, dispatch }) {
       try {
         let res = await api.get("keeps")
-        console.log(res)
+        console.log("GETTING KEEPS")
         commit("setKeeps", res.data)
       } catch (error) {
         console.error(error);
@@ -60,7 +75,6 @@ export default new Vuex.Store({
     async getSearchedProfile({ commit, dispatch }, profileId) {
       try {
         let res = await api.get("profiles/" + profileId)
-        console.log(res)
         commit("setViewedProfile", res.data)
       } catch (error) {
         console.error(error);
@@ -88,7 +102,6 @@ export default new Vuex.Store({
     async viewKeep({ commit, dispatch }, viewedKeep) {
       try {
         let res = await api.put("keeps/" + viewedKeep.id, viewedKeep)
-        console.log(res)
       } catch (error) {
         console.error(error);
       }
@@ -119,6 +132,65 @@ export default new Vuex.Store({
       } catch (error) {
         console.error(error);
       }
-    }
+    },
+
+    setActiveKeep({ commit, dispatch }, keep) {
+      commit("setActiveKeep", keep)
+    },
+
+    async getUserVaults({ commit, dispatch }, profileId) {
+      try {
+        let res = await api.get("profiles/" + profileId + "/vaults")
+        commit("setUserVaults", res.data)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    sendKeepId({ commit, dispatch }, keepId) {
+      console.log("GOT SENT KEEPID")
+      commit("sendKeepId", keepId)
+    },
+
+    async addToVault({ commit, dispatch }, vaultKeep) {
+      try {
+        let res = await api.post("vaultkeeps", vaultKeep)
+        dispatch("getKeepById", vaultKeep.keepId)
+        dispatch("getKeepsByVaultId", vaultKeep.vaultId)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async getKeepById({ commit, dispatch }, keepId) {
+      try {
+        let res = await api.get("keeps/" + keepId)
+        dispatch("editKeepsOnKeep", res.data)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async editKeepsOnKeep({ commit, dispatch }, keep) {
+      try {
+        keep.keeps++
+        console.log(keep)
+        let res = await api.put("keeps/" + keep.id, keep)
+        dispatch("getKeeps")
+        commit("setActiveKeep", keep)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async getKeepsByVaultId({ commit, dispatch }, vaultId) {
+      try {
+        let res = await api.get("vaults/" + vaultId + "/keeps")
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+
   },
 });
