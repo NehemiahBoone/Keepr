@@ -14,6 +14,62 @@
         </div>
       </div>
     </div>
+
+    <div class="row my-1">
+      <div class="col-12">
+        <h3>
+          Vaults
+          <i
+            class="fas fa-plus text-success"
+            @click="vaultToggle = !vaultToggle"
+          ></i>
+        </h3>
+        <form
+          class="form-inline"
+          v-if="vaultToggle"
+          @submit.prevent="createVault"
+        >
+          <div class="form-group">
+            <input
+              type="text"
+              name="vaultName"
+              id="vaultName"
+              v-model="newVault.name"
+              class="form-control"
+              placeholder="Title..."
+              aria-describedby="helpId"
+            />
+            <input
+              type="text"
+              name="vaultDescription"
+              id="vaultDescription"
+              v-model="newVault.description"
+              class="form-control"
+              placeholder="Description..."
+              aria-describedby="helpId"
+            />
+            <input
+              type="checkbox"
+              name="vaultIsPrivate"
+              id="vaultIsPrivate"
+              v-model="newVault.IsPrivate"
+              class="form-control"
+              aria-describedby="helpId"
+            />
+          </div>
+          <button class="btn btn-success" type="submit">Create Keep</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <vault-component
+        v-for="vault in vaults"
+        :key="vault.id"
+        :vaultProp="vault"
+      />
+    </div>
+
     <div class="row my-1">
       <div class="col-12">
         <h3>
@@ -57,24 +113,13 @@
               aria-describedby="helpId"
             />
           </div>
-          <button class="btn btn-success" type="submit">Create Keep</button>
+          <button class="btn btn-success" type="submit">Create Vault</button>
         </form>
       </div>
     </div>
+
     <div class="row mb-4">
       <keep-component v-for="keep in keeps" :key="keep.id" :keepProp="keep" />
-    </div>
-    <div class="row my-1">
-      <div class="col-12">
-        <h3>Vaults <i class="fas fa-plus text-success"></i></h3>
-      </div>
-    </div>
-    <div class="row mb-4">
-      <vault-component
-        v-for="vault in vaults"
-        :key="vault.id"
-        :vaultProp="vault"
-      />
     </div>
   </div>
 </template>
@@ -92,6 +137,8 @@ export default {
   data() {
     return {
       keepToggle: false,
+      vaultToggle: false,
+      newVault: {},
       newKeep: {},
     };
   },
@@ -113,6 +160,13 @@ export default {
         profileId: this.$route.params.id,
       });
       this.newKeep = {};
+    },
+    createVault() {
+      this.$store.dispatch("createVault", {
+        newVault: this.newVault,
+        profileId: this.$route.params.id,
+      });
+      this.newVault = {};
     },
   },
   components: {

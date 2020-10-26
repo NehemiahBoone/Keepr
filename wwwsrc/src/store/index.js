@@ -116,6 +116,16 @@ export default new Vuex.Store({
       }
     },
 
+    async createVault({ commit, dispatch }, vault) {
+      try {
+        let res = await api.post("vaults", vault.newVault)
+        console.log(res)
+        dispatch("getProfileVaults", vault.profileId)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     async deleteKeepOnProfile({ commit, dispatch }, keep) {
       try {
         await api.delete("keeps/" + keep.keep.id)

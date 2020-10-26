@@ -16,16 +16,16 @@ namespace Keepr.Repositories
             profile.*
             FROM vaults vault
             JOIN profiles profile on vault.creatorId = profile.Id ";
-        
+
         public VaultsRepository(IDbConnection db)
         {
             _db = db;
         }
-        
+
         internal Vault GetById(int id)
         {
             string sql = populateCreator + "WHERE vault.id = @id";
-            return _db.Query<Vault, Profile, Vault>(sql, (vault, profile) => {vault.Creator = profile; return vault;}, new {id}, splitOn: "id").FirstOrDefault();
+            return _db.Query<Vault, Profile, Vault>(sql, (vault, profile) => { vault.Creator = profile; return vault; }, new { id }, splitOn: "id").FirstOrDefault();
         }
 
         internal int Create(Vault newVault)
@@ -42,13 +42,16 @@ namespace Keepr.Repositories
         internal void DeleteVault(int id)
         {
             string sql = "DELETE FROM vaults WHERE id = @id";
-            _db.Execute(sql, new {id});
+            _db.Execute(sql, new { id });
         }
 
         internal IEnumerable<Vault> GetAllByCreatorId(string id)
         {
             string sql = populateCreator + "WHERE creatorId = @id;";
-            return _db.Query<Vault, Profile, Vault>(sql, (vault, profile) => {vault.Creator = profile; return vault;}, new {id}, splitOn: "id");
+            return _db.Query<Vault, Profile, Vault>(sql, (vault, profile) =>
+            {
+                vault.Creator = profile; return vault;
+            }, new { id }, splitOn: "id");
         }
     }
 }
