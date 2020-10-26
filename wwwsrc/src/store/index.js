@@ -19,19 +19,19 @@ export default new Vuex.Store({
       state.profile = profile;
     },
 
-    setViewedProfile(state, profile){
+    setViewedProfile(state, profile) {
       state.viewedProfile = profile;
     },
 
-    setKeeps(state, keeps){
+    setKeeps(state, keeps) {
       state.keeps = keeps;
     },
 
-    setProfileKeeps(state, keeps){
+    setProfileKeeps(state, keeps) {
       state.profileKeeps = keeps
     },
 
-    setProfileVaults(state, vaults){
+    setProfileVaults(state, vaults) {
       state.profileVaults = vaults
     }
 
@@ -47,7 +47,7 @@ export default new Vuex.Store({
       }
     },
 
-    async getKeeps({commit, dispatch}){
+    async getKeeps({ commit, dispatch }) {
       try {
         let res = await api.get("keeps")
         console.log(res)
@@ -57,7 +57,7 @@ export default new Vuex.Store({
       }
     },
 
-    async getSearchedProfile({commit,dispatch}, profileId){
+    async getSearchedProfile({ commit, dispatch }, profileId) {
       try {
         let res = await api.get("profiles/" + profileId)
         console.log(res)
@@ -67,7 +67,7 @@ export default new Vuex.Store({
       }
     },
 
-    async getProfileKeeps({commit,dispatch}, profileId){
+    async getProfileKeeps({ commit, dispatch }, profileId) {
       try {
         let res = await api.get("profiles/" + profileId + "/keeps")
         commit("setProfileKeeps", res.data)
@@ -75,11 +75,47 @@ export default new Vuex.Store({
         console.error(error);
       }
     },
-    
-    async getProfileVaults({commit,dispatch}, profileId){
+
+    async getProfileVaults({ commit, dispatch }, profileId) {
       try {
         let res = await api.get("profiles/" + profileId + "/vaults")
         commit("setProfileVaults", res.data)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async viewKeep({ commit, dispatch }, viewedKeep) {
+      try {
+        let res = await api.put("keeps/" + viewedKeep.id, viewedKeep)
+        console.log(res)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async createKeep({ commit, dispatch }, keep) {
+      try {
+        let res = await api.post("keeps", keep.newKeep)
+        dispatch("getProfileKeeps", keep.profileId)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async deleteKeepOnProfile({ commit, dispatch }, keep) {
+      try {
+        await api.delete("keeps/" + keep.keep.id)
+        dispatch("getProfileKeeps", keep.profileId)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async deleteKeepOnHome({ commit, dispatch }, keepId) {
+      try {
+        await api.delete("keeps/" + keepId)
+        dispatch("getKeeps")
       } catch (error) {
         console.error(error);
       }

@@ -3,6 +3,12 @@
     <img :src="keepProp.img" alt="" />
     <h2>{{ keepProp.name }}</h2>
     <img @click="viewProfile" :src="keepProp.creator.picture" alt="" />
+    <i
+      class="fa fa-trash"
+      v-if="keepProp.creatorId == this.$auth.userInfo.id"
+      aria-hidden="true"
+      @click="deleteKeep"
+    ></i>
 
     <div class="modal fade" id="keepModal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -23,11 +29,11 @@
           <div class="modal-body text-center">
             {{ keepProp.description }}
             <br /><br />
-            {{ keepProp.views }} | {{ keepProp.keeps }} <br /><br />
+            {{ this.keepProp.views }} | {{ keepProp.keeps }} <br /><br />
             <img :src="keepProp.img" alt="" />
           </div>
           <div class="modal-footer">
-            <button class="btn btn-primary">Add to Vault</button>
+            <button class="btn btn-primary" @click="viewKeep">View</button>
             {{ keepProp.creator.name }}
             <img :src="keepProp.creator.picture" alt="" />
           </div>
@@ -50,6 +56,24 @@ export default {
         name: "Profile",
         params: { id: this.keepProp.creator.id },
       });
+    },
+    viewKeep() {
+      let viewedKeep = this.keepProp;
+      viewedKeep.views++;
+      this.$store.dispatch("viewKeep", viewedKeep);
+    },
+    deleteKeep() {
+      let popup = confirm("Are you sure you want to delete this keep?");
+      if (popup == true) {
+        if (this.$route.name == "Profile") {
+          this.$store.dispatch("deleteKeepOnProfile", {
+            keep: this.keepProp,
+            profileId: this.$route.params.id,
+          });
+        } else {
+          this.$store.dispatch("deleteKeepOnHome", this.keepProp.id);
+        }
+      }
     },
   },
 };

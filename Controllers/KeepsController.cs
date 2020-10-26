@@ -63,16 +63,11 @@ namespace Keepr.Controllers
         }
 
         [HttpPut("{keepId}")]
-        [Authorize]
-        public async Task<ActionResult<Keep>> EditKeep(int keepId, [FromBody] Keep editedKeep)
+        public ActionResult<Keep> EditKeep(int keepId, [FromBody] Keep editedKeep)
         {
             try
             {
-                Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
-                editedKeep.Creator = userInfo;
-                editedKeep.Id = keepId;
-
-                return Ok(_service.EditKeep(editedKeep, userInfo.Id));
+                return Ok(_service.EditKeep(editedKeep));
             }
             catch (System.Exception e)
             {

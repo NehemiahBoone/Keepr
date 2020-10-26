@@ -24,7 +24,7 @@ namespace Keepr.Services
         internal Keep GetById(int keepId)
         {
             var data = _repo.GetById(keepId);
-            if(data == null)
+            if (data == null)
             {
                 throw new Exception("Invalid Id... from keepsService");
             }
@@ -40,17 +40,12 @@ namespace Keepr.Services
         }
 
 
-        internal Keep EditKeep(Keep editedKeep, string userId)
+        internal Keep EditKeep(Keep editedKeep)
         {
             Keep original = _repo.GetById(editedKeep.Id);
-            if(original == null)
+            if (original == null)
             {
                 throw new Exception("Invalid Id... from keepsService");
-            }
-
-            if(original.CreatorId != userId)
-            {
-                throw new Exception("Access Denied NOT YOURS... from keepsService");
             }
 
             editedKeep.Name = editedKeep.Name == null ? original.Name : editedKeep.Name;
@@ -71,12 +66,12 @@ namespace Keepr.Services
         internal object DeleteKeep(int id, string userId)
         {
             Keep original = _repo.GetById(id);
-            if(original == null)
+            if (original == null)
             {
                 throw new Exception("Invalid Id... from keepsService");
             }
 
-            if(original.CreatorId != userId )
+            if (original.CreatorId != userId)
             {
                 throw new Exception("Access Denied NOT YOURS... from keepsService");
             }
