@@ -1,11 +1,13 @@
 <template>
-  <div
-    class="card card-width"
-    data-toggle="modal"
-    :data-target="'#' + modalId"
-    @click="setActive"
-  >
-    <img class="card-img-top img-fluid" :src="keepProp.img" alt="" />
+  <div class="card">
+    <img
+      class="card-img-top"
+      @click="setActive"
+      :src="keepProp.img"
+      alt=""
+      data-toggle="modal"
+      :data-target="'#' + modalId"
+    />
     <h2>{{ keepProp.name }}</h2>
     <img @click="viewProfile" :src="keepProp.creator.picture" alt="" />
     <i
@@ -116,7 +118,4 @@ export default {
 </script>
 
 <style>
-.card-img-top {
-  width: 100%;
-}
 </style>

@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import Home from "../pages/Home.vue";
 import Profile from "../pages/ProfilePage.vue";
 import Vault from "../pages/VaultPage.vue";
+import { authGuard } from "@bcwdev/auth0-vue"
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,7 @@ const routes = [
     path: "/profile/:profileId/vaults/:vaultId",
     name: "Vault",
     component: Vault,
+    beforeEnter: authGuard,
   }
 ];
 

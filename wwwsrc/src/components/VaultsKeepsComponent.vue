@@ -7,7 +7,12 @@
   >
     <img :src="vaultKeepProp.img" alt="" />
     <h2>{{ vaultKeepProp.name }}</h2>
-    <i class="fa fa-trash" @click="removeKeep" aria-hidden="true"></i>
+    <i
+      class="fa fa-trash"
+      v-if="this.$auth.userInfo.id == this.$route.params.profileId"
+      @click="removeKeep"
+      aria-hidden="true"
+    ></i>
 
     <keep-modal :id="modalId">
       <template v-slot:header>
