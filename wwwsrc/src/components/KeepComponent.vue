@@ -1,11 +1,11 @@
 <template>
   <div
-    class="col-6 col-md-3 card"
+    class="card card-width"
     data-toggle="modal"
     :data-target="'#' + modalId"
     @click="setActive"
   >
-    <img :src="keepProp.img" alt="" />
+    <img class="card-img-top img-fluid" :src="keepProp.img" alt="" />
     <h2>{{ keepProp.name }}</h2>
     <img @click="viewProfile" :src="keepProp.creator.picture" alt="" />
     <i
@@ -86,11 +86,6 @@ export default {
         params: { id: this.keepProp.creator.id },
       });
     },
-    viewKeep() {
-      let viewedKeep = this.keepProp;
-      viewedKeep.views++;
-      this.$store.dispatch("viewKeep", viewedKeep);
-    },
     deleteKeep() {
       let popup = confirm("Are you sure you want to delete this keep?");
       if (popup == true) {
@@ -106,7 +101,8 @@ export default {
     },
     setActive() {
       console.log(this.keepProp);
-      this.$store.dispatch("setActiveKeep", this.keepProp);
+      this.keepProp.views++;
+      this.$store.dispatch("viewKeep", this.keepProp);
     },
     sendKeepId() {
       this.$store.dispatch("sendKeepId", this.keepProp.id);
@@ -120,4 +116,7 @@ export default {
 </script>
 
 <style>
+.card-img-top {
+  width: 100%;
+}
 </style>

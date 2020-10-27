@@ -112,6 +112,7 @@ export default new Vuex.Store({
     async viewKeep({ commit, dispatch }, viewedKeep) {
       try {
         let res = await api.put("keeps/" + viewedKeep.id, viewedKeep)
+        dispatch("setActiveKeep", res.data)
       } catch (error) {
         console.error(error);
       }
@@ -226,5 +227,23 @@ export default new Vuex.Store({
         console.error(error);
       }
     },
+
+    async deleteVault({ commit, dispatch }, vault) {
+      try {
+        let res = await api.delete("vaults/" + vault.vaultId)
+        dispatch("getProfileVaults", vault.profileId)
+      } catch (error) {
+        console.error();
+      }
+    },
+
+    async removeKeep({ commit, dispatch }, vaultKeep) {
+      try {
+        let res = await api.delete("vaultkeeps/" + vaultKeep.vaultKeepId)
+        dispatch("getKeepsByVaultId", vaultKeep.vaultId)
+      } catch (error) {
+        console.error(error);
+      }
+    }
   },
 });

@@ -19,7 +19,7 @@ const routes = [
     component: Profile,
   },
   {
-    path: "/vaults/:vaultId",
+    path: "/profile/:profileId/vaults/:vaultId",
     name: "Vault",
     component: Vault,
   }

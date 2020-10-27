@@ -7,12 +7,7 @@
   >
     <img :src="vaultKeepProp.img" alt="" />
     <h2>{{ vaultKeepProp.name }}</h2>
-    <i
-      class="fa fa-trash"
-      v-if="vaultKeepProp.creatorId == this.$auth.userInfo.id"
-      aria-hidden="true"
-      @click="deleteKeep"
-    ></i>
+    <i class="fa fa-trash" @click="removeKeep" aria-hidden="true"></i>
 
     <keep-modal :id="modalId">
       <template v-slot:header>
@@ -69,17 +64,15 @@ export default {
       viewedKeep.views++;
       this.$store.dispatch("viewKeep", viewedKeep);
     },
-    deleteKeep() {
-      let popup = confirm("Are you sure you want to delete this keep?");
+    removeKeep() {
+      let vaultKeepToDelete = {
+        vaultKeepId: this.vaultKeepProp.vaultKeepId,
+        vaultId: this.$route.params.vaultId,
+      };
+      console.log(vaultKeepToDelete);
+      let popup = confirm("Are you sure you want to remove this keep?");
       if (popup == true) {
-        if (this.$route.name == "Profile") {
-          this.$store.dispatch("deleteKeepOnProfile", {
-            keep: this.vaultKeepProp,
-            profileId: this.$route.params.id,
-          });
-        } else {
-          this.$store.dispatch("deleteKeepOnHome", this.vaultKeepProp.id);
-        }
+        this.$store.dispatch("removeKeep", vaultKeepToDelete);
       }
     },
     setActive() {

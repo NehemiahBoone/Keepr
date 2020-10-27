@@ -19,10 +19,11 @@ namespace Keepr.Services
         internal void DeleteVaultKeep(int id)
         {
             var data = _repo.GetById(id);
-            if(data == null)
+            if (data == null)
             {
-            _repo.DeleteVaultKeep(id);
+                throw new Exception("Invalid Id... from vaultkeepsService");
             }
+            _repo.DeleteVaultKeep(id);
         }
     }
 }

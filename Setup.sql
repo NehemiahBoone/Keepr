@@ -1,3 +1,5 @@
+SELECT * FROM vaultkeeps;
+
 /* DELETE FROM vaultkeeps;
 DELETE FROM keeps;
 DELETE FROM vaults; */

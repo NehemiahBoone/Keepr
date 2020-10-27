@@ -1,6 +1,12 @@
 <template>
-  <div class="col-6 col-md-3 card" @click="viewVault">
-    <h2>{{ vaultProp.name }}</h2>
+  <div class="col-6 col-md-3 card">
+    <h2 @click="viewVault">{{ vaultProp.name }}</h2>
+    <i
+      class="fa fa-trash"
+      v-if="vaultProp.creatorId == this.$auth.userInfo.id"
+      @click="deleteVault"
+      aria-hidden="true"
+    ></i>
   </div>
 </template>
 
@@ -13,8 +19,20 @@ export default {
       this.$store.dispatch("setActiveVault", this.vaultProp);
       this.$router.push({
         name: "Vault",
-        params: { vaultId: this.vaultProp.id },
+        params: {
+          profileId: this.vaultProp.creatorId,
+          vaultId: this.vaultProp.id,
+        },
       });
+    },
+    deleteVault() {
+      let popup = confirm("Are you sure you want to delete this vault?");
+      if (popup == true) {
+        this.$store.dispatch("deleteVault", {
+          vaultId: this.vaultProp.id,
+          profileId: this.vaultProp.creatorId,
+        });
+      }
     },
   },
 };

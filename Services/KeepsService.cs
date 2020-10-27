@@ -40,7 +40,7 @@ namespace Keepr.Services
         }
 
 
-        internal Keep EditKeep(Keep editedKeep, string userId)
+        internal Keep EditKeep(Keep editedKeep)
         {
             Keep original = _repo.GetById(editedKeep.Id);
             if (original == null)
@@ -48,10 +48,6 @@ namespace Keepr.Services
                 throw new Exception("Invalid Id... from keepsService");
             }
 
-            if (original.CreatorId != userId)
-            {
-                throw new Exception("NOT AUTHORIZED... from keepsService");
-            }
 
 
 
