@@ -1,12 +1,14 @@
 <template>
-  <div
-    class="col-6 col-md-3 card"
-    data-toggle="modal"
-    :data-target="'#' + modalId"
-    @click="setActive"
-  >
-    <img :src="vaultKeepProp.img" alt="" />
-    <h2>{{ vaultKeepProp.name }}</h2>
+  <div class="card">
+    <img
+      class="card-img-top"
+      :src="vaultKeepProp.img"
+      @click="setActive"
+      data-toggle="modal"
+      :data-target="'#' + modalId"
+      alt=""
+    />
+    <h2 class="text-white">{{ vaultKeepProp.name }}</h2>
     <i
       class="fa fa-trash"
       v-if="this.$auth.userInfo.id == this.$route.params.profileId"
@@ -17,26 +19,31 @@
     <keep-modal :id="modalId">
       <template v-slot:header>
         <div v-if="activeKeep.id">
-          <h2 class="text-primary">{{ activeKeep.name }}</h2>
+          <h2 class="text-white">{{ activeKeep.name }}</h2>
+          <small
+            >Posted By:
+            <span class="text-info">{{ activeKeep.creator.name }}</span></small
+          >
+          <br />
+          <br />
+          <p class="text-light">{{ activeKeep.description }}</p>
         </div>
       </template>
 
       <template v-slot:body>
         <div v-if="activeKeep.id">
-          <img :src="activeKeep.img" alt="" />
-          <p>{{ activeKeep.description }}</p>
-        </div>
-      </template>
-
-      <template v-slot:footer>
-        <div v-if="activeKeep.id">
-          <small>Views: {{ activeKeep.views }}</small>
+          <div class="text-center">
+            <img class="img-fluid" :src="activeKeep.img" alt="" />
+          </div>
+          <small class="d-block text-center"
+            >Views: {{ activeKeep.views }} <b>|</b> Keeps:
+            {{ activeKeep.keeps }}</small
+          >
           <br />
-          <small>Keeps: {{ activeKeep.keeps }}</small>
+          <div class="text-center">
+            <img :src="activeKeep.creator.picture" alt="" />
+          </div>
           <br />
-          <br />
-          <img :src="activeKeep.creator.picture" alt="" />
-          <p>{{ activeKeep.creator.name }}</p>
         </div>
       </template>
     </keep-modal>

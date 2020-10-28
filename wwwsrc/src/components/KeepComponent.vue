@@ -8,7 +8,7 @@
       data-toggle="modal"
       :data-target="'#' + modalId"
     />
-    <h2>{{ keepProp.name }}</h2>
+    <h2 class="text-white">{{ keepProp.name }}</h2>
     <img @click="viewProfile" :src="keepProp.creator.picture" alt="" />
     <i
       class="fa fa-trash"
@@ -20,29 +20,29 @@
     <keep-modal :id="modalId">
       <template v-slot:header>
         <div v-if="activeKeep.id">
-          <h2 class="text-primary">{{ activeKeep.name }}</h2>
+          <h2 class="text-white">{{ activeKeep.name }}</h2>
+          <small
+            >Posted By:
+            <span class="text-info">{{ activeKeep.creator.name }}</span></small
+          >
+          <br />
+          <br />
+          <p class="text-light">{{ activeKeep.description }}</p>
         </div>
       </template>
 
       <template v-slot:body>
         <div v-if="activeKeep.id">
-          <img :src="activeKeep.img" alt="" />
-          <p>{{ activeKeep.description }}</p>
-        </div>
-      </template>
-
-      <template v-slot:footer>
-        <div v-if="activeKeep.id">
-          <small>Views: {{ activeKeep.views }}</small>
-          <br />
-          <small>Keeps: {{ activeKeep.keeps }}</small>
-          <br />
-          <br />
-          <img :src="activeKeep.creator.picture" alt="" />
-          <p>{{ activeKeep.creator.name }}</p>
-          <div class="dropdown show">
+          <div class="text-center">
+            <img class="img-fluid" :src="activeKeep.img" alt="" />
+          </div>
+          <small class="d-block text-center"
+            >Views: {{ activeKeep.views }} <b>|</b> Keeps:
+            {{ activeKeep.keeps }}</small
+          >
+          <div class="dropdown show text-center">
             <button
-              class="btn btn-primary dropdown-toggle"
+              class="btn btn-success dropdown-toggle"
               role="button"
               data-toggle="dropdown"
               @click="sendKeepId"
@@ -58,6 +58,11 @@
               />
             </div>
           </div>
+          <br />
+          <div class="text-center">
+            <img :src="activeKeep.creator.picture" alt="" />
+          </div>
+          <br />
         </div>
       </template>
     </keep-modal>

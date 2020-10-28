@@ -15,9 +15,6 @@
           </button>
         </div>
         <slot name="body"></slot>
-        <div class="modal-footer">
-          <slot name="footer"></slot>
-        </div>
       </div>
     </div>
   </div>

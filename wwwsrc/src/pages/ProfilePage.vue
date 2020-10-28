@@ -119,7 +119,7 @@
       </div>
     </div>
 
-    <div class="row mb-4">
+    <div class="card-columns">
       <keep-component v-for="keep in keeps" :key="keep.id" :keepProp="keep" />
     </div>
   </div>
@@ -131,8 +131,8 @@ import vaultComponent from "../components/VaultComponent";
 export default {
   mounted() {
     this.$store.dispatch("getSearchedProfile", this.$route.params.id);
-    this.$store.dispatch("getProfileKeeps", this.$route.params.id);
     this.$store.dispatch("getProfileVaults", this.$route.params.id);
+    this.$store.dispatch("getProfileKeeps", this.$route.params.id);
   },
   name: "profile",
   data() {
@@ -167,6 +167,7 @@ export default {
         newVault: this.newVault,
         profileId: this.$route.params.id,
       });
+      this.vaultToggle = false;
       this.newVault = {};
     },
   },
@@ -178,4 +179,21 @@ export default {
 </script>
 
 <style>
+@media (min-width: 576px) {
+  .card-columns {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 768px) {
+  .card-columns {
+    column-count: 3;
+  }
+}
+
+@media (min-width: 992px) {
+  .card-columns {
+    column-count: 4;
+  }
+}
 </style>

@@ -1,8 +1,8 @@
-SELECT * FROM vaultkeeps;
+/* SELECT * FROM vaultkeeps; */
 
-/* DELETE FROM vaultkeeps;
+DELETE FROM vaultkeeps;
 DELETE FROM keeps;
-DELETE FROM vaults; */
+DELETE FROM vaults;
 
 /* CREATE TABLE profiles
 (

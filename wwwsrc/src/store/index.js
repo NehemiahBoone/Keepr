@@ -132,6 +132,7 @@ export default new Vuex.Store({
         let res = await api.post("vaults", vault.newVault)
         console.log(res)
         dispatch("getProfileVaults", vault.profileId)
+        dispatch("getUserVaults", vault.profileId)
       } catch (error) {
         console.error(error);
       }

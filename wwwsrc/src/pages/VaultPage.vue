@@ -6,7 +6,7 @@
         <h5>{{ vaultsKeeps.length }}</h5>
       </div>
     </div>
-    <div class="row">
+    <div class="card-columns">
       <vaults-keeps-component
         v-for="keep in vaultsKeeps"
         :key="keep.id"
@@ -39,4 +39,21 @@ export default {
 </script>
 
 <style>
+@media (min-width: 576px) {
+  .card-columns {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 768px) {
+  .card-columns {
+    column-count: 3;
+  }
+}
+
+@media (min-width: 992px) {
+  .card-columns {
+    column-count: 4;
+  }
+}
 </style>
