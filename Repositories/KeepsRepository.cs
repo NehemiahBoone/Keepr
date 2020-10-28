@@ -86,5 +86,22 @@ namespace Keepr.Repositories
             string sql = populateCreator + "WHERE creatorId = @id;";
             return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => { keep.Creator = profile; return keep; }, new { id }, splitOn: "id");
         }
+
+        internal Keep EditKeepViews(Keep editedKeep)
+        {
+            string sql = @"
+                UPDATE keeps
+                SET
+                creatorId = @CreatorId,
+                name = @Name,
+                description = @Description,
+                img = @Img,
+                views = @Views,
+                shares = @Shares,
+                keeps = @Keeps
+                WHERE id = @Id;";
+            _db.Execute(sql, editedKeep);
+            return editedKeep;
+        }
     }
 }

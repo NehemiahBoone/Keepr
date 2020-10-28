@@ -111,7 +111,7 @@ export default new Vuex.Store({
 
     async viewKeep({ commit, dispatch }, viewedKeep) {
       try {
-        let res = await api.put("keeps/" + viewedKeep.id, viewedKeep)
+        let res = await api.put("keeps/" + viewedKeep.id + "/views", viewedKeep)
         dispatch("setActiveKeep", res.data)
       } catch (error) {
         console.error(error);

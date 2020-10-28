@@ -8,13 +8,15 @@
       :data-target="'#' + modalId"
       alt=""
     />
-    <h2 class="text-white">{{ vaultKeepProp.name }}</h2>
-    <i
-      class="fas fa-minus-circle text-warning"
-      v-if="this.$auth.userInfo.id == this.$route.params.profileId"
-      @click="removeKeep"
-      aria-hidden="true"
-    ></i>
+    <h2 class="text-white">
+      {{ vaultKeepProp.name }}
+      <i
+        class="fas fa-minus-circle text-warning"
+        v-if="this.$auth.userInfo.id == this.$route.params.profileId"
+        @click="removeKeep"
+        aria-hidden="true"
+      ></i>
+    </h2>
 
     <keep-modal :id="modalId">
       <template v-slot:header>

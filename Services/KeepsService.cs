@@ -40,7 +40,7 @@ namespace Keepr.Services
         }
 
 
-        internal Keep EditKeep(Keep editedKeep)
+        internal Keep EditKeep(Keep editedKeep, string userId)
         {
             Keep original = _repo.GetById(editedKeep.Id);
             if (original == null)
@@ -48,6 +48,10 @@ namespace Keepr.Services
                 throw new Exception("Invalid Id... from keepsService");
             }
 
+            if (original.CreatorId != userId)
+            {
+                throw new Exception("NOT AUTHORIZED... from keepsService");
+            }
 
 
 
@@ -81,6 +85,26 @@ namespace Keepr.Services
 
             _repo.DeleteKeep(id);
             return "Successfully Deleted... from keepsService";
+        }
+
+        internal Keep EditKeepViews(Keep editedKeep)
+        {
+            Keep original = _repo.GetById(editedKeep.Id);
+            if (original == null)
+            {
+                throw new Exception("Invalid Id... from keepsService");
+            }
+
+
+
+            editedKeep.Name = editedKeep.Name == null ? original.Name : editedKeep.Name;
+            editedKeep.Description = editedKeep.Description == null ? original.Description : editedKeep.Description;
+            editedKeep.Img = editedKeep.Img == null ? original.Img : editedKeep.Img;
+            editedKeep.Views = editedKeep.Views == 0 ? original.Views : editedKeep.Views;
+            editedKeep.Keeps = editedKeep.Keeps == 0 ? original.Keeps : editedKeep.Keeps;
+            editedKeep.Creator = editedKeep.Creator == null ? original.Creator : editedKeep.Creator;
+
+            return _repo.EditKeepViews(editedKeep);
         }
 
         internal IEnumerable<Keep> GetAllByCreatorId(string id)
