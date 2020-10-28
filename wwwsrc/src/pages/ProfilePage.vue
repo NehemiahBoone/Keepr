@@ -4,7 +4,7 @@
       <div class="col-12">
         <div class="row">
           <div class="col-sm-12 col-md-2">
-            <img :src="viewedProfile.picture" alt="" />
+            <img class="creator-img" :src="viewedProfile.picture" alt="" />
           </div>
           <div class="col-sm-12 col-md-10">
             <h2>{{ viewedProfile.name }}</h2>
@@ -179,6 +179,9 @@ export default {
 </script>
 
 <style>
+.creator-img {
+  border-radius: 50%;
+}
 @media (min-width: 576px) {
   .card-columns {
     column-count: 2;

@@ -10,7 +10,7 @@
     />
     <h2 class="text-white">{{ vaultKeepProp.name }}</h2>
     <i
-      class="fa fa-trash"
+      class="fas fa-minus-circle text-warning"
       v-if="this.$auth.userInfo.id == this.$route.params.profileId"
       @click="removeKeep"
       aria-hidden="true"
@@ -41,7 +41,7 @@
           >
           <br />
           <div class="text-center">
-            <img :src="activeKeep.creator.picture" alt="" />
+            <img class="creator-img" :src="activeKeep.creator.picture" alt="" />
           </div>
           <br />
         </div>
@@ -89,7 +89,8 @@ export default {
     },
     setActive() {
       console.log(this.vaultKeepProp);
-      this.$store.dispatch("setActiveKeep", this.vaultKeepProp);
+      this.vaultKeepProp.views++;
+      this.$store.dispatch("viewKeep", this.vaultKeepProp);
     },
     sendKeepId() {
       this.$store.dispatch("sendKeepId", this.vaultKeepProp.id);
@@ -103,4 +104,7 @@ export default {
 </script>
 
 <style>
+.creator-img {
+  border-radius: 50%;
+}
 </style>

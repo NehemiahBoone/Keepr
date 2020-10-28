@@ -9,9 +9,16 @@
       :data-target="'#' + modalId"
     />
     <h2 class="text-white">{{ keepProp.name }}</h2>
-    <img @click="viewProfile" :src="keepProp.creator.picture" alt="" />
+    <img
+      @click="viewProfile"
+      :src="keepProp.creator.picture"
+      class="creator-img"
+      height="50"
+      width="50"
+      alt=""
+    />
     <i
-      class="fa fa-trash"
+      class="fa fa-trash text-danger"
       v-if="keepProp.creatorId == this.$auth.userInfo.id"
       aria-hidden="true"
       @click="deleteKeep"
@@ -60,7 +67,7 @@
           </div>
           <br />
           <div class="text-center">
-            <img :src="activeKeep.creator.picture" alt="" />
+            <img class="creator-img" :src="activeKeep.creator.picture" alt="" />
           </div>
           <br />
         </div>
@@ -123,4 +130,16 @@ export default {
 </script>
 
 <style>
+.card {
+  box-shadow: 0px 0px 0px grey;
+  -webkit-transition: box-shadow 0.6s ease-out;
+  box-shadow: 0.8px 0.9px 3px grey;
+}
+.card:hover {
+  box-shadow: 1px 8px 20px grey;
+  -webkit-transition: box-shadow 0.6s ease-in;
+}
+.creator-img {
+  border-radius: 50%;
+}
 </style>

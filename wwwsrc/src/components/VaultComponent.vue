@@ -2,7 +2,7 @@
   <div class="col-6 col-md-3 card">
     <h2 @click="viewVault">{{ vaultProp.name }}</h2>
     <i
-      class="fa fa-trash"
+      class="fa fa-trash text-danger"
       v-if="vaultProp.creatorId == this.$auth.userInfo.id"
       @click="deleteVault"
       aria-hidden="true"

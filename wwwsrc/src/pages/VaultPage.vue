@@ -1,17 +1,26 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
+    <div class="row mb-2" v-if="activeVault.name">
       <div class="col-12">
         <h2>{{ activeVault.name }}</h2>
-        <h5>{{ vaultsKeeps.length }}</h5>
+        <p>Current Keeps: {{ vaultsKeeps.length }}</p>
       </div>
     </div>
-    <div class="card-columns">
+    <div class="card-columns" v-if="activeVault.name">
       <vaults-keeps-component
         v-for="keep in vaultsKeeps"
         :key="keep.id"
         :vaultKeepProp="keep"
       />
+    </div>
+
+    <div class="row" v-if="!activeVault.name">
+      <div class="col-12 text-center">
+        <h2>THIS VAULT IS PRIVATE</h2>
+        <button type="button" @click="goBackHome" class="btn btn-info">
+          Go To Home
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +43,11 @@ export default {
   },
   components: {
     VaultsKeepsComponent,
+  },
+  methods: {
+    goBackHome() {
+      this.$router.push({ name: "Home" });
+    },
   },
 };
 </script>
