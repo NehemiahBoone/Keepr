@@ -1,17 +1,11 @@
 <template>
   <div class="container-fluid">
-    <div class="row my-5">
-      <div class="col-12">
-        <div class="row">
-          <div class="col-sm-12 col-md-2">
-            <img class="creator-img" :src="viewedProfile.picture" alt="" />
-          </div>
-          <div class="col-sm-12 col-md-10">
-            <h2>{{ viewedProfile.name }}</h2>
-            <h5>Vaults: {{ vaults.length }}</h5>
-            <h5>Keeps: {{ keeps.length }}</h5>
-          </div>
-        </div>
+    <div class="row my-2">
+      <div class="col-12 text-center">
+        <img class="creator-img" :src="viewedProfile.picture" alt="" />
+        <h2>{{ viewedProfile.name }}</h2>
+        <h5>Vaults: {{ vaults.length }}</h5>
+        <h5>Keeps: {{ keeps.length }}</h5>
       </div>
     </div>
 
@@ -63,7 +57,7 @@
       </div>
     </div>
 
-    <div class="row mb-4">
+    <div class="row mb-4 mx-1">
       <vault-component
         v-for="vault in vaults"
         :key="vault.id"

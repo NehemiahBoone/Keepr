@@ -8,21 +8,23 @@
       data-toggle="modal"
       :data-target="'#' + modalId"
     />
-    <h2 class="text-white">{{ keepProp.name }}</h2>
-    <img
-      @click="viewProfile"
-      :src="keepProp.creator.picture"
-      class="creator-img"
-      height="50"
-      width="50"
-      alt=""
-    />
-    <i
-      class="fa fa-trash text-danger"
-      v-if="keepProp.creatorId == this.$auth.userInfo.id"
-      aria-hidden="true"
-      @click="deleteKeep"
-    ></i>
+    <h2 class="text-white">
+      {{ keepProp.name }}
+      <img
+        @click="viewProfile"
+        :src="keepProp.creator.picture"
+        class="creator-img"
+        height="50"
+        width="50"
+        alt=""
+      />
+      <i
+        class="fa fa-trash text-danger"
+        v-if="keepProp.creatorId == this.$auth.userInfo.id"
+        aria-hidden="true"
+        @click="deleteKeep"
+      ></i>
+    </h2>
 
     <keep-modal :id="modalId">
       <template v-slot:header>
