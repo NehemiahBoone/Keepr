@@ -11,6 +11,9 @@ import keepComponent from "../components/KeepComponent";
 export default {
   mounted() {
     this.$store.dispatch("getKeeps");
+    if (false) {
+      console.log("bananas");
+    }
   },
   name: "home",
   computed: {

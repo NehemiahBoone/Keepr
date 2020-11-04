@@ -98,7 +98,6 @@ namespace Keepr
 
       app.UseStaticFiles();
 
-
       app.UseEndpoints(endpoints =>
       {
         endpoints.MapControllers();
