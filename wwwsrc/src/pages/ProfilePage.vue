@@ -14,6 +14,7 @@
         <h3>
           Vaults
           <i
+            v-if="this.$auth.userInfo.id == this.$route.params.id"
             class="fas fa-plus text-success"
             @click="vaultToggle = !vaultToggle"
           ></i>
@@ -70,6 +71,7 @@
         <h3>
           Keeps
           <i
+            v-if="this.$auth.userInfo.id == this.$route.params.id"
             class="fas fa-plus text-success"
             @click="keepToggle = !keepToggle"
           ></i>
