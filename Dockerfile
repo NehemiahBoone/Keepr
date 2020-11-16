@@ -4,4 +4,4 @@ COPY bin/Release/netcoreapp3.1/publish/ App/
 
 WORKDIR /App
 
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet keepr.dll
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet Keepr.dll
